@@ -15,18 +15,18 @@ yPoints = yRaw.split(",")
 xPointsFloat = [float(xP) for xP in xPoints]
 yPointsFloat = [float(yP) for yP in yPoints]
 
-a, b, c, d, e, f, g, h= np.polyfit(xPointsFloat,yPointsFloat,7)
+a, b, c, d, e, f= np.polyfit(xPointsFloat,yPointsFloat,5)
 
-print(a,b,c,d,e,f,g,h)
+print(a,b,c,d,e,f)
 
 fromFunc = []
 
 for i in xPointsFloat:
-    fromFunc.append(a*i**7+b*i**6+c*i**5+d*i**4+e*i**3+f*i**2+g*i+h)
+    fromFunc.append(a*i**5+b*i**4+c*i**3+d*i**2+e*i+f)
 
 corr, _ = pr(fromFunc, yPointsFloat)
 
-print(corr)
+print(corr*corr)
 
 plt.plot(xPointsFloat,yPointsFloat,"ro")
 plt.plot(xPointsFloat,fromFunc,"ro", color="blue")
