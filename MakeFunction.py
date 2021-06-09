@@ -1,7 +1,9 @@
-from os import read
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr as pr
+
+np.set_printoptions(suppress=True)
 
 xFile = open("x.txt","r")
 yFile = open("y.txt","r")
@@ -15,22 +17,28 @@ yPoints = yRaw.split(",")
 xPointsFloat = [float(xP) for xP in xPoints]
 yPointsFloat = [float(yP) for yP in yPoints]
 
-a, b, c, d, e, f= np.polyfit(xPointsFloat,yPointsFloat,5)
+z = np.polyfit(xPointsFloat, yPointsFloat, 7)
 
-print(a,b,c,d,e,f)
+func = np.poly1d(z)
 
 fromFunc = []
 
 for i in xPointsFloat:
-    fromFunc.append(a*i**5+b*i**4+c*i**3+d*i**2+e*i+f)
+    fromFunc.append(func(i))
 
 corr, _ = pr(fromFunc, yPointsFloat)
 
 print(corr*corr)
 
-plt.plot(xPointsFloat,yPointsFloat,"ro")
-plt.plot(xPointsFloat,fromFunc,"ro", color="blue")
+plt.plot(xPointsFloat,yPointsFloat, "ro")
 plt.gca().set_aspect('equal', adjustable='box')
-plt.show()
+plt.plot(xPointsFloat,func(xPointsFloat))
+plt.title("Function")
 
-print(fromFunc)
+with open('output.txt', 'a') as file:
+    file.truncate()
+    file.write('R^2: '+ str(corr*corr))
+    file.write('Function: '+ str(func))
+    file.close
+
+plt.show()
