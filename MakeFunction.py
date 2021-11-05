@@ -11,6 +11,7 @@ from scipy.stats import pearsonr as pr
 now = datetime.now()
 
 files = glob.glob('pics/*')
+
 for f in files:
     os.remove(f)
 
@@ -31,7 +32,7 @@ plt.show(block=False)
 
 ordinal = lambda n: "%d%s" % (n,"tsnrhtdd"[(n//10%10!=1)*(n%10<4)*n%10::4])
 
-for i in range(1,15):
+for i in range(1,9):
 
     z = np.polyfit(xPointsFloat, yPointsFloat, i)
 
@@ -59,7 +60,8 @@ for i in range(1,15):
 np.set_printoptions(suppress=True)
 
 with open('output.txt', 'a') as file:
-    file.truncate()
+
+    file.truncate(0)
     file.write('R^2: '+ str(corr*corr))
     file.write('Function: '+ str(func))
     file.close()
@@ -90,4 +92,4 @@ while True:
 
 dt_string = now.strftime("%H_%M_%S")
 
-imageio.mimsave('gifs/'+dt_string+'.gif', images)
+imageio.mimsave('gifs/' + dt_string + '.gif', images)
